@@ -16,13 +16,14 @@ def main():
 			'mods':{1:0.984} #peptide sequence modifications using position:Da pairs
 		}
 	path = 'PXD018998\\01_001815W_KLH_2.raw'	#path to the spectrum file
-#	scan = 10234 + 1
-#	peptide = {	'tol':0.2,	#fragment ion tolerance (in Da)
-#			'z':3,		#maximum fragment ion charge to consider
-#			'seq': 'SAADEVDGLGVARPHYGSVLDNER', #peptide sequence
-#			'mods':{1:42.011} #peptide sequence modifications using position:Da pairs
-#		}
-#	path = 'PXD000865\\00576_E01_P004283_B0E_A00_R1.raw'
+	if False:
+		scan = 10234 + 1
+		peptide = {	'tol':0.2,	#fragment ion tolerance (in Da)
+				'z':3,		#maximum fragment ion charge to consider
+				'seq': 'SAADEVDGLGVARPHYGSVLDNER', #peptide sequence
+				'mods':{1:42.011} #peptide sequence modifications using position:Da pairs
+			}
+		path = 'PXD000865\\00576_E01_P004283_B0E_A00_R1.raw'
 # retrieve the spectrum and some text information
 	(expt,info) = GetSpectrum(path,scan)
 # rescale the spectrum to run from 0 to 100
@@ -103,7 +104,13 @@ def main():
 	ax = fig.add_subplot(111)
 	ax.set_xlabel('m/z')
 	ax.set_ylabel('intensity')
-	ax.set_title('#%i, %s' % (scan,peptide['seq']))
+	title = '#%i, %s' % (scan,peptide['seq'])
+	if len(peptide['mods']) > 0:
+		title += '\n'
+		for m in peptide['mods']:
+			title += '%s%i+%.3f,' % (peptide['seq'][m-1],m,peptide['mods'][m])
+		title = title[0:-1]
+	ax.set_title(title)
 	ax.set_xlim(0,1.05*max(peaks['expt'][0]))
 	ax.bar(peaks['expt'][0],peaks['expt'][1],color=(0.6,0.6,0.6,.5),width=2,label='unmatched')
 	ax.bar(peaks['b-NH3'][0],peaks['b-NH3'][1],color=(0.3,0.6,0.9,1.0),width=4,label='b-NH3')

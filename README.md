@@ -8,3 +8,6 @@ There are two files:
 
 2. scan_graph_test.py - a demonstration of how to use the methods in scan_graph.py
 
+3. 9102-NGKITSIVKDSSAARNG.png - a sample PNG generated using scan_graph_test.py
+
+

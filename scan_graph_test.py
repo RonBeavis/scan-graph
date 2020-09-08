@@ -8,7 +8,7 @@ import matplotlib.style
 import matplotlib as mpl
 
 def main():
-# provide information for retrieving the spectrum
+	# provide information for retrieving the spectrum
 	scan = 9101 + 1
 	peptide = {	'tol':0.2,	#fragment ion tolerance (in Da)
 			'z':3,		#maximum fragment ion charge to consider
@@ -24,22 +24,23 @@ def main():
 				'mods':{1:42.011} #peptide sequence modifications using position:Da pairs
 			}
 		path = 'PXD000865\\00576_E01_P004283_B0E_A00_R1.raw'
-# retrieve the spectrum and some text information
+	# retrieve the spectrum and some text information
 	(expt,info) = GetSpectrum(path,scan)
-# rescale the spectrum to run from 0 to 100
+	# rescale the spectrum to run from 0 to 100
 	iscale = max(expt[1])
 	expt[1] = [100.0*x/iscale for x in expt[1]]
 	peaks = {'expt':expt}
 
-# specify the ion types (and plot colors) to use
-	itypes = {'b-NH3':(0.3,0.6,0.9,1.0),
+	# specify the ion types (and plot colors) to use
+	itypes = {
+			'b-NH3':(0.3,0.6,0.9,1.0),
 			'b-H2O':(0.6,0.6,0.9,1.0),
 			'b-ion':(0.1,0.1,0.9,1.0),
 			'y-NH3':(0.9,0.6,0.3,1.0),
 			'y-H2O':(0.9,0.6,0.6,1.0),
 			'y-ion':(0.9,0.1,0.1,1.0)
-			}
-# get the ion information
+		}
+	# get the ion information
 	print('type\tz\tm/z\tintensity')
 	for it in itypes:
 		if it[0] == 'b':

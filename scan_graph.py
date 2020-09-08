@@ -1,3 +1,8 @@
+#
+# Copyright © 2020 Ronald C. Beavis
+# Licensed under Apache License, Version 2.0, January 2004
+#
+
 # you must install pymsfilereader using the instructions at
 # https://github.com/frallain/pymsfilereader
 

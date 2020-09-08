@@ -41,8 +41,19 @@ a_to_m = {	"A":71.037114,
 		"Y":163.06332,
 		"V":99.068414 }
 
+# interpret a fragment neutral loss mass shift string
+def GetDelta(_delta):
+	delta = 0;
+	if _delta:
+		if _delta == '-NH2':
+			delta = -1.0*(2*isotopes['H'] + isotopes['N'])
+		if _delta == '-H2O':
+			delta = -1.0*(2*isotopes['H'] + isotopes['O'])
+	return delta
+	
 # calculate the neutral masses of Y-type fragments
-def GetYs(_pep):
+def GetYs(_pep,_delta = None):
+	delta = GetDelta(_delta)
 	dY = 2*isotopes['H'] + isotopes['O']
 	# reverse the peptide sequence
 	ss = list(_pep['seq'][::-1])
@@ -55,7 +66,7 @@ def GetYs(_pep):
 		else:
 			ms.append(a_to_m[aa])
 	rvs= []
-	cvalue = dY
+	cvalue = dY + delta
 	# create an array of fragment masses
 	for m in ms:
 		cvalue += m
@@ -63,7 +74,8 @@ def GetYs(_pep):
 	return rvs
 
 # calculate the neutral masses of B-type fragments
-def GetBs(_pep):
+def GetBs(_pep,_delta = None):
+	delta = GetDelta(_delta)
 	dB = 0.0
 	ss = list(_pep['seq'])
 	ms = []
@@ -74,7 +86,7 @@ def GetBs(_pep):
 		else:
 			ms.append(a_to_m[aa])
 	rvs= []
-	cvalue = dB
+	cvalue = dB + delta
 	# create an array of fragment masses
 	for m in ms:
 		cvalue += m

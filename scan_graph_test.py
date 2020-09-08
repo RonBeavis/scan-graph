@@ -53,6 +53,7 @@ def main():
 	ax.set_xlabel('m/z')
 	ax.set_ylabel('intensity')
 	ax.set_title('#%i, %s' % (scan,peptide['seq']))
+	ax.set_xlim(0,1.05*max(peaks['expt'][0]))
 	ax.bar(peaks['expt'][0],peaks['expt'][1],color=(0.3,0.3,0.3,.5),width=2,label='unmatched')
 	ax.bar(peaks['b-ions'][0],peaks['b-ions'][1],color=(0.1,0.1,0.9,1.0),width=4,label='b-ion')
 	ax.bar(peaks['y-ions'][0],peaks['y-ions'][1],color=(0.9,0.1,0.1,1.0),width=4,label='y-ion')

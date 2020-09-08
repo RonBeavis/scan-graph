@@ -1,5 +1,5 @@
 #
-# Copyright © 2019 Ronald C. Beavis
+# Copyright © 2020 Ronald C. Beavis
 # Licensed under Apache License, Version 2.0, January 2004
 #
 from scan_graph import GetSpectrum,GetBs,GetCharge,GetYs,GetValues

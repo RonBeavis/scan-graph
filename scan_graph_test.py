@@ -120,6 +120,7 @@ def main():
 	ax.bar(peaks['y-H20'][0],peaks['y-H20'][1],color=(0.9,0.6,0.6,1.0),width=4,label='y-H20')
 	ax.bar(peaks['y-ions'][0],peaks['y-ions'][1],color=(0.9,0.1,0.1,1.0),width=4,label='y-ion')
 	ax.legend()
+	plt.savefig('%i-%s.png' % (scan,peptide['seq']))
 	plt.show()
 
 if __name__ == "__main__":

@@ -53,7 +53,7 @@ def main():
 			print('B\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
 	peaks['b-H20'] = ps
 	
-	bvals = GetBs(peptide,'-NH2')
+	bvals = GetBs(peptide,'-NH3')
 	ps = [[],[]]
 	for z in range(1,peptide['z']+1):
 		zvals = GetCharge(bvals,z)

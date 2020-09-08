@@ -1,8 +1,7 @@
 #
-# Copyright © 2020 Ronald C. Beavis
+# Copyright © 2019 Ronald C. Beavis
 # Licensed under Apache License, Version 2.0, January 2004
 #
-
 # you must install pymsfilereader using the instructions at
 # https://github.com/frallain/pymsfilereader
 
@@ -91,7 +90,7 @@ def GetCharge(_vs,_z):
 		rvs.append((v+z*proton)/z)
 	return rvs
 
-# compare a set of ions (_vals) to a set of peaks (_expts) and return the union
+# compare a set of ions (_vals) to a set of peaks (_expts) and return the intersection
 def GetValues(_vals,_expts,_tol):
     rvs = [[],[]]
     for v in _vals:
@@ -104,7 +103,7 @@ def GetValues(_vals,_expts,_tol):
 # retrieve an MS/MS spectrum, based on a RAW file path name and a scan number
 def GetSpectrum(_path,_scan):
 	info = {}
-	rawfile = MSFileReader(path)
+	rawfile = MSFileReader(_path)
 	info['Version'] = rawfile.Version()
 	info['GetFileName'] = rawfile.GetFileName()
 	info['RTFromScanNum'] = rawfile.RTFromScanNum(_scan)

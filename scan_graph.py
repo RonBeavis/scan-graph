@@ -45,10 +45,15 @@ a_to_m = {	"A":71.037114,
 def GetDelta(_delta):
 	delta = 0;
 	if _delta:
-		if _delta == '-NH2':
+		if _delta == '-NH3':
 			delta = -1.0*(2*isotopes['H'] + isotopes['N'])
-		if _delta == '-H2O':
+		elif _delta == '-H2O':
 			delta = -1.0*(2*isotopes['H'] + isotopes['O'])
+		else:
+			try:
+				delta = float(_delta)
+			except:
+				delta = 0.0
 	return delta
 	
 # calculate the neutral masses of Y-type fragments

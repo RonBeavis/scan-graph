@@ -4,7 +4,7 @@ scan_graph is a simple Python 3.0 project that shows how to pull a particular MS
 
 There are two files:
 
-scan_graph.py - contains methods used to extract a scan from a .raw file and to generate lists of annotation peaks
+1. scan_graph.py - contains methods used to extract a scan from a .raw file and to generate lists of annotation peaks
 
-scan_graph_test.py - a demonstration of how to use the methods in scan_graph.py
+2. scan_graph_test.py - a demonstration of how to use the methods in scan_graph.py
 

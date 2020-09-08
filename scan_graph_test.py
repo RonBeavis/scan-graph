@@ -19,32 +19,33 @@ def main():
 
 # retrieve the spectrum and some text information
 	(expt,info) = GetSpectrum(path,scan)
-
 # rescale the spectrum to run from 0 to 100
 	iscale = max(expt[1])
 	expt[1] = [100.0*x/iscale for x in expt[1]]
+	peaks = {'expt':expt}
 
 # process and plot b ions
 	bvals = GetBs(peptide)
-	bpeaks = [[],[]]
+	ps = [[],[]]
 	for z in range(1,peptide['z']+1):
 		zvals = GetCharge(bvals,z)
 		pvals = GetValues(zvals,expt,peptide['tol'])
-		bpeaks[0] += pvals[0]
-		bpeaks[1] += pvals[1]
+		ps[0] += pvals[0]
+		ps[1] += pvals[1]
 		for i,p in enumerate(pvals[0]):
 			print('B\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-
+	peaks['b-ions'] = ps
 # process and plot y ions
 	yvals = GetYs(peptide)
-	ypeaks = [[],[]]
+	ps = [[],[]]
 	for z in range(1,peptide['z']+1):
 		zvals = GetCharge(yvals,z)
 		pvals = GetValues(zvals,expt,peptide['tol'])
-		ypeaks[0] += pvals[0]
-		ypeaks[1] += pvals[1]
+		ps[0] += pvals[0]
+		ps[1] += pvals[1]
 		for i,p in enumerate(pvals[0]):
 			print('Y\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
+	peaks['y-ions'] = ps
 
 # display the plot
 	fig = plt.figure(figsize=(10, 5), dpi=100)
@@ -52,9 +53,9 @@ def main():
 	ax.set_xlabel('m/z')
 	ax.set_ylabel('intensity')
 	ax.set_title('#%i, %s' % (scan,peptide['seq']))
-	ax.bar(expt[0],expt[1],color=(0.3,0.3,0.3,.5),width=2,label='unmatched')
-	ax.bar(bpeaks[0],bpeaks[1],color=(0.1,0.1,0.9,1.0),width=4,label='b-ion')
-	ax.bar(ypeaks[0],ypeaks[1],color=(0.9,0.1,0.1,1.0),width=4,label='y-ion')
+	ax.bar(peaks['expt'][0],peaks['expt'][1],color=(0.3,0.3,0.3,.5),width=2,label='unmatched')
+	ax.bar(peaks['b-ions'][0],peaks['b-ions'][1],color=(0.1,0.1,0.9,1.0),width=4,label='b-ion')
+	ax.bar(peaks['y-ions'][0],peaks['y-ions'][1],color=(0.9,0.1,0.1,1.0),width=4,label='y-ion')
 	ax.legend()
 	plt.show()
 

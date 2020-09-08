@@ -16,14 +16,6 @@ def main():
 			'mods':{1:0.984} #peptide sequence modifications using position:Da pairs
 		}
 	path = 'PXD018998\\01_001815W_KLH_2.raw'	#path to the spectrum file
-	if False:
-		scan = 10234 + 1
-		peptide = {	'tol':0.2,	#fragment ion tolerance (in Da)
-				'z':3,		#maximum fragment ion charge to consider
-				'seq': 'SAADEVDGLGVARPHYGSVLDNER', #peptide sequence
-				'mods':{1:42.011} #peptide sequence modifications using position:Da pairs
-			}
-		path = 'PXD000865\\00576_E01_P004283_B0E_A00_R1.raw'
 # retrieve the spectrum and some text information
 	(expt,info) = GetSpectrum(path,scan)
 # rescale the spectrum to run from 0 to 100

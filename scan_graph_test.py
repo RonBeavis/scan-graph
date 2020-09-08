@@ -31,73 +31,36 @@ def main():
 	expt[1] = [100.0*x/iscale for x in expt[1]]
 	peaks = {'expt':expt}
 
-# process and plot b ions
-	bvals = GetBs(peptide)
-	ps = [[],[]]
-	for z in range(1,peptide['z']+1):
-		zvals = GetCharge(bvals,z)
-		pvals = GetValues(zvals,expt,peptide['tol'])
-		ps[0] += pvals[0]
-		ps[1] += pvals[1]
-		for i,p in enumerate(pvals[0]):
-			print('B\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-	peaks['b-ions'] = ps
-	
-	bvals = GetBs(peptide,'-H2O')
-	ps = [[],[]]
-	for z in range(1,peptide['z']+1):
-		zvals = GetCharge(bvals,z)
-		pvals = GetValues(zvals,expt,peptide['tol'])
-		ps[0] += pvals[0]
-		ps[1] += pvals[1]
-		for i,p in enumerate(pvals[0]):
-			print('B\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-	peaks['b-H20'] = ps
-	
-	bvals = GetBs(peptide,'-NH3')
-	ps = [[],[]]
-	for z in range(1,peptide['z']+1):
-		zvals = GetCharge(bvals,z)
-		pvals = GetValues(zvals,expt,peptide['tol'])
-		ps[0] += pvals[0]
-		ps[1] += pvals[1]
-		for i,p in enumerate(pvals[0]):
-			print('B\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-	peaks['b-NH3'] = ps
-
-# process and plot y ions
-	yvals = GetYs(peptide)
-	ps = [[],[]]
-	for z in range(1,peptide['z']+1):
-		zvals = GetCharge(yvals,z)
-		pvals = GetValues(zvals,expt,peptide['tol'])
-		ps[0] += pvals[0]
-		ps[1] += pvals[1]
-		for i,p in enumerate(pvals[0]):
-			print('Y\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-	peaks['y-ions'] = ps
-
-	yvals = GetYs(peptide,'-H2O')
-	ps = [[],[]]
-	for z in range(1,peptide['z']+1):
-		zvals = GetCharge(yvals,z)
-		pvals = GetValues(zvals,expt,peptide['tol'])
-		ps[0] += pvals[0]
-		ps[1] += pvals[1]
-		for i,p in enumerate(pvals[0]):
-			print('Y\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-	peaks['y-H20'] = ps
-
-	yvals = GetYs(peptide,'-NH3')
-	ps = [[],[]]
-	for z in range(1,peptide['z']+1):
-		zvals = GetCharge(yvals,z)
-		pvals = GetValues(zvals,expt,peptide['tol'])
-		ps[0] += pvals[0]
-		ps[1] += pvals[1]
-		for i,p in enumerate(pvals[0]):
-			print('Y\t%i\t%.3f\t%.0f' % (z,p,pvals[1][i]))
-	peaks['y-NH3'] = ps
+# specify the ion types (and plot colors) to use
+	itypes = {'b-NH3':(0.3,0.6,0.9,1.0),
+			'b-H2O':(0.6,0.6,0.9,1.0),
+			'b-ion':(0.1,0.1,0.9,1.0),
+			'y-NH3':(0.9,0.6,0.3,1.0),
+			'y-H2O':(0.9,0.6,0.6,1.0),
+			'y-ion':(0.9,0.1,0.1,1.0)
+			}
+# get the ion information
+	print('type\tz\tm/z\tintensity')
+	for it in itypes:
+		if it[0] == 'b':
+			bvals = GetBs(peptide,it[1:])
+		else:
+			bvals = GetYs(peptide,it[1:])
+		# reset the peak lists
+		ps = [[],[]]
+		# iterate through allowed charge states
+		for z in range(1,peptide['z']+1):
+			# add in charge information
+			zvals = GetCharge(bvals,z)
+			# get matched peaks
+			pvals = GetValues(zvals,expt,peptide['tol'])
+			# update the peak lists
+			ps[0] += pvals[0]
+			ps[1] += pvals[1]
+			# create a table entry (mainly for debugging purposes)
+			for i,p in enumerate(pvals[0]):
+				print('%s\t%i\t%.3f\t%.0f' % (it,z,p,pvals[1][i]))
+		peaks[it] = ps
 
 # display the plot
 	fig = plt.figure(figsize=(10, 5), dpi=100)
@@ -112,13 +75,9 @@ def main():
 		title = title[0:-1]
 	ax.set_title(title)
 	ax.set_xlim(0,1.05*max(peaks['expt'][0]))
-	ax.bar(peaks['expt'][0],peaks['expt'][1],color=(0.6,0.6,0.6,.5),width=2,label='unmatched')
-	ax.bar(peaks['b-NH3'][0],peaks['b-NH3'][1],color=(0.3,0.6,0.9,1.0),width=4,label='b-NH3')
-	ax.bar(peaks['b-H20'][0],peaks['b-H20'][1],color=(0.6,0.6,0.9,1.0),width=4,label='b-H20')
-	ax.bar(peaks['b-ions'][0],peaks['b-ions'][1],color=(0.1,0.1,0.9,1.0),width=4,label='b-ion')
-	ax.bar(peaks['y-NH3'][0],peaks['y-NH3'][1],color=(0.9,0.6,0.3,1.0),width=4,label='y-NH3')
-	ax.bar(peaks['y-H20'][0],peaks['y-H20'][1],color=(0.9,0.6,0.6,1.0),width=4,label='y-H20')
-	ax.bar(peaks['y-ions'][0],peaks['y-ions'][1],color=(0.9,0.1,0.1,1.0),width=4,label='y-ion')
+	ax.bar(peaks['expt'][0],peaks['expt'][1],color=(0.6,0.6,0.6,0.6),width=2,label='unmatched')
+	for it in itypes:
+		ax.bar(peaks[it][0],peaks[it][1],color=itypes[it],width=4,label=it)
 	ax.legend()
 	plt.savefig('%i-%s.png' % (scan,peptide['seq']))
 	plt.show()

@@ -46,7 +46,7 @@ def GetDelta(_delta):
 	delta = 0;
 	if _delta:
 		if _delta == '-NH3':
-			delta = -1.0*(2*isotopes['H'] + isotopes['N'])
+			delta = -1.0*(3*isotopes['H'] + isotopes['N'])
 		elif _delta == '-H2O':
 			delta = -1.0*(2*isotopes['H'] + isotopes['O'])
 		else:

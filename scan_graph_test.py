@@ -2,7 +2,7 @@
 # Copyright © 2020 Ronald C. Beavis
 # Licensed under Apache License, Version 2.0, January 2004
 #
-from scan_graph import GetSpectrum,GetBs,GetCharge,GetYs,GetValues
+from scan_graph import GetSpectrum,GetBs,GetCharge,GetYs,GetValues,GetParents,GetImmonium
 import matplotlib.pyplot as plt
 import matplotlib.style
 import matplotlib as mpl
@@ -56,6 +56,26 @@ def main():
 				print('%s\t%i\t%.3f\t%.0f' % (it,z,p,pvals[1][i]))
 		peaks[it] = ps
 
+	# calculate parent ion & fragments
+	bvals = GetParents(peptide)
+	ps = [[],[]]
+	zvals = GetCharge(bvals,peptide['z'])
+	pvals = GetValues(zvals,expt,peptide['tol'])
+	# update the peak lists
+	ps[0] += pvals[0]
+	ps[1] += pvals[1]
+	peaks['parent'] = ps
+	
+	# calculate immonium ions
+	bvals = GetImmonium(peptide)
+	ps = [[],[]]
+	zvals = GetCharge(bvals,1)
+	pvals = GetValues(zvals,expt,peptide['tol'])
+	# update the peak lists
+	ps[0] += pvals[0]
+	ps[1] += pvals[1]
+	peaks['immonium'] = ps
+
 	# set up the plot
 	fig = plt.figure(figsize=(10, 5), dpi=100)
 	ax = fig.add_subplot(111)
@@ -76,6 +96,8 @@ def main():
 	# overwrite with matched peaks using the specified colors
 	for it in itypes:
 		ax.bar(peaks[it][0],peaks[it][1],color=itypes[it],width=4,label=it)
+	ax.bar(peaks['parent'][0],peaks['parent'][1],color=(0.1,0.9,0.1,1.0),width=4,label='parent')
+	ax.bar(peaks['immonium'][0],peaks['immonium'][1],color=(0.9,0.9,0.1,1.0),width=4,label='immonium')
 	# show the legend
 	ax.legend()
 	# save the plot to a PNG file

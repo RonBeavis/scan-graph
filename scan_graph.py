@@ -61,6 +61,8 @@ def GetDelta(_delta):
 			delta = -1.0*(isotopes['C'] + 4*isotopes['H'] + isotopes['S'] + isotopes['O'])
 		elif _delta == '-H3PO4':
 			delta = -1.0*(3*isotopes['H'] + isotopes['P'] + 4*isotopes['O'])
+		elif _delta == '-H5PO5':
+			delta = -1.0*(5*isotopes['H'] + isotopes['P'] + 5*isotopes['O'])
 		else:
 			# check to see if _delta is a number
 			try:
@@ -89,6 +91,52 @@ def GetYs(_pep,_delta = None):
 	for m in ms:
 		cvalue += m
 		rvs.append(cvalue)
+	return rvs
+
+# calculate the neutral masses of parent ions and fragments
+def GetParents(_pep):
+	difs = [GetDelta('-H2O'),2.0*GetDelta('-H2O')]
+	phospho = isotopes['H'] + 3*isotopes['O'] + isotopes['P']
+	for m in _pep['mods']:
+		if _pep['seq'][m-1] == 'M' and abs(_pep['mods'] - isotopes['O']) < 0.01:
+			difs.append(GetDelta('-CH4SO'))
+		elif _pep['seq'][m-1] == 'S' and abs(_pep['mods'] - phospho) < 0.01:
+			difs.append(GetDelta('-H3PO4'))
+			difs.append(GetDelta('-H5PO5'))
+		elif _pep['seq'][m-1] == 'T' and abs(_pep['mods'] - phospho) < 0.01:
+			difs.append(GetDelta('-H3PO4'))
+			difs.append(GetDelta('-H5PO5'))
+		elif _pep['seq'][m-1] == 'Y' and abs(_pep['mods'] - phospho) < 0.01:
+			difs.append(GetDelta('-H3PO4'))
+			difs.append(GetDelta('-H5PO5'))
+	dY = 2*isotopes['H'] + isotopes['O']
+	# reverse the peptide sequence
+	ss = list(_pep['seq'][::-1])
+	ms = []
+	l = len(_pep['seq'])
+	# create an array of residue masses
+	for i,aa in enumerate(ss):
+		if l-i in _pep['mods']:
+			ms.append(a_to_m[aa]+_pep['mods'][l-i])
+		else:
+			ms.append(a_to_m[aa])
+	rvs= []
+	cvalue = dY
+	# create an array of fragment masses
+	for m in ms:
+		cvalue += m
+	rvs.append(cvalue)
+	for d in difs:
+		rvs.append(cvalue+d)
+	return rvs
+
+# calculate the neutral masses of immonium ions
+def GetImmonium(_pep):
+	delta = isotopes['C'] + isotopes['O']
+	rvs= []
+	# create an array of fragment masses
+	for aa in _pep['seq']:
+		rvs.append(a_to_m[aa]-delta)
 	return rvs
 
 # calculate the neutral masses of B-type fragments

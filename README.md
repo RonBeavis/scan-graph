@@ -1,6 +1,6 @@
 # scan-graph
 
-scan_graph is a simple Python 3.0 project that shows how to pull a particular MS/MS scan out of a Thermo .raw file and generate an annotated graph for that scan, given an assigned peptide sequence.
+*scan_graph* is a simple Python 3.0 project that shows how to pull a particular MS/MS scan out of a Thermo .raw file and generate an annotated graph for that scan, given an assigned peptide sequence.
 
 There are three files:
 
@@ -10,4 +10,4 @@ There are three files:
 
 3. 9102-NGKITSIVKDSSAARNG.png - a sample PNG generated using scan_graph_test.py
 
-
+Access to .raw files uses *pymsfilereader*, so you must install this package using the instructions at https://github.com/frallain/pymsfilereader. This package is only available for Windows, because accessing the files requires using a COM interface supplied by Thermo.

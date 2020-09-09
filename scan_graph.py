@@ -9,47 +9,60 @@ from pymsfilereader import MSFileReader
 import re
 
 # some useful constant values
-isotopes = {	'p' : 1.007276,
+isotopes = {	
+		'p' : 1.007276,
 		'H' : 1.007825,
 		'C' : 12.0,
 		'N' : 14.003074,
-		'O': 15.994915 }
+		'O' : 15.994915,
+		'S' : 31.972071,
+		'Se' : 79.91652,
+		'P' : 30.973762
+		}
 
-a_to_m = {	"A":71.037114,
-		"R":156.101111,
-		"B":114.042927,
-		"N":114.042927,
-		"D":115.026943,
-		"C":103.009185,
-		"E":129.042593,
-		"Q":128.058578,
-		"Z":128.058578,
-		"G":57.021464,
-		"O":237.147727,
-		"H":137.058912,
-		"I":113.084064,
-		"J":113.084064,
-		"L":113.084064,
-		"K":128.094963,
-		"M":131.040485,
-		"F":147.068414,
-		"P":97.052764,
-		"S":87.032028,
-		"T":101.047679,
-		"U":150.95363,
-		"W":186.079313,
-		"Y":163.06332,
-		"V":99.068414 }
+a_to_m = {
+		'A' : 71.037114,
+		'R' : 156.101111,
+		'B' : 114.042927,
+		'N' : 114.042927,
+		'D' : 115.026943,
+		'C' : 103.009185,
+		'E' : 129.042593,
+		'Q' : 128.058578,
+		'Z' : 128.058578,
+		'G' : 57.021464,
+		'O' : 237.147727,
+		'H' : 137.058912,
+		'I' : 113.084064,
+		'J' : 113.084064,
+		'L' : 113.084064,
+		'K' : 128.094963,
+		'M' : 131.040485,
+		'F' : 147.068414,
+		'P' : 97.052764,
+		'S' : 87.032028,
+		'T' : 101.047679,
+		'U' : 150.95363,
+		'W' : 186.079313,
+		'Y' : 163.06332,
+		'V' : 99.068414
+		}
 
 # interpret a fragment neutral loss mass shift string
 def GetDelta(_delta):
 	delta = 0;
 	if _delta:
+		# check for defined strings
 		if _delta == '-NH3':
-			delta = -1.0*(3*isotopes['H'] + isotopes['N'])
+			delta = -1.0*(isotopes['N'] + 3*isotopes['H'])
 		elif _delta == '-H2O':
 			delta = -1.0*(2*isotopes['H'] + isotopes['O'])
+		elif _delta == '-CH4SO':
+			delta = -1.0*(isotopes['C'] + 4*isotopes['H'] + isotopes['S'] + isotopes['O'])
+		elif _delta == '-H3PO4':
+			delta = -1.0*(3*isotopes['H'] + isotopes['P'] + 4*isotopes['O'])
 		else:
+			# check to see if _delta is a number
 			try:
 				delta = float(_delta)
 			except:

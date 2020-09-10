@@ -8,7 +8,7 @@
 # scan_graph_test.py is a test script to demonstrate the use scan_graph.py to create
 # an annotated graph of an MS/MS spectrum using a known peptide sequence assignment
 #
-from scan_graph import GetSpectrum,GetBs,GetCharge,GetYs,GetValues,GetParents,GetImmonium
+from scan_graph import GetSpectrum,GetAs,GetBs,GetYs,GetCharge,GetValues,GetParents,GetImmonium
 import matplotlib.pyplot as plt
 import matplotlib.style
 import matplotlib as mpl
@@ -34,6 +34,7 @@ def main():
 
 	# specify the ion types (and plot colors) to use
 	itypes = {
+			'a-ion':(0.9,0.6,0.9,1.0),
 			'b-NH3':(0.3,0.6,0.9,1.0),
 			'b-H2O':(0.6,0.6,0.9,1.0),
 			'b-ion':(0.1,0.1,0.9,1.0),
@@ -46,6 +47,8 @@ def main():
 	for it in itypes:
 		if it[0] == 'b':
 			bvals = GetBs(peptide,it[1:])
+		if it[0] == 'a':
+			bvals = GetAs(peptide,it[1:])
 		else:
 			bvals = GetYs(peptide,it[1:])
 		# reset the peak lists

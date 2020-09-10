@@ -23,6 +23,6 @@ path = 'PXD018998\\01_001815W_KLH_2.raw'
 
 As written, *scan_graph_test.py* will annotate:
 
-1. b, b-NH<sub>3</sub>, b-H<sub>2</sub>O, y, y-NH<sub>3</sub> and y-H<sub>2</sub>O ions for z = 1, 2 & 3;
+1. a, b, b-NH<sub>3</sub>, b-H<sub>2</sub>O, y, y-NH<sub>3</sub> and y-H<sub>2</sub>O ions for z = 1, 2 & 3;
 2. the parent ion as well as the parent -H<sub>2</sub>O & -2H<sub>2</sub>O (z=3); and
 3. immonium ions for each of the amino acids in the peptide sequence.

@@ -22,6 +22,7 @@ def main():
 			'mods':{1:0.984} # peptide sequence modifications using position:Da pairs
 		}
 	path = 'PXD018998\\01_001815W_KLH_2.raw'	#path to the spectrum file
+	peak_width = 2
 	# you can get this file from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
 	
 	# retrieve the spectrum and some text information
@@ -84,7 +85,7 @@ def main():
 	peaks['immonium'] = ps
 
 	# set up the plot
-	fig = plt.figure(figsize=(10, 5), dpi=100)
+	fig = plt.figure(figsize=(10, 5), dpi=200)
 	ax = fig.add_subplot(111)
 	ax.set_xlabel('m/z')
 	ax.set_ylabel('intensity')
@@ -102,9 +103,9 @@ def main():
 	ax.bar(peaks['expt'][0],peaks['expt'][1],color=(0.6,0.6,0.6,0.6),width=2,label='unmatched')
 	# overwrite with matched peaks using the specified colors
 	for it in itypes:
-		ax.bar(peaks[it][0],peaks[it][1],color=itypes[it],width=4,label=it)
-	ax.bar(peaks['parent'][0],peaks['parent'][1],color=(0.1,0.9,0.1,1.0),width=4,label='parent')
-	ax.bar(peaks['immonium'][0],peaks['immonium'][1],color=(0.9,0.9,0.1,1.0),width=4,label='immonium')
+		ax.bar(peaks[it][0],peaks[it][1],color=itypes[it],width=peak_width,label=it)
+	ax.bar(peaks['parent'][0],peaks['parent'][1],color=(0.1,0.9,0.1,1.0),width=peak_width,label='parent')
+	ax.bar(peaks['immonium'][0],peaks['immonium'][1],color=(0.9,0.9,0.1,1.0),width=peak_width,label='immonium')
 	# show the legend
 	ax.legend()
 	# save the plot to a PNG file

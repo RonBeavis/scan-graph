@@ -10,13 +10,19 @@ There are three files:
 
 Access to .raw files uses *pymsfilereader*, so you must install this package using the instructions at https://github.com/frallain/pymsfilereader. This package is only available for Windows, because accessing the files requires using a COM interface supplied by Thermo.
 
-To run *scan_graph_test.py*, you will need an accessible .raw data file. In the code, a data file is specified in the path variable:
-
+To run *scan_graph_test.py*, you will need an accessible .raw data file. In the code, a data file is specified by the path variable:
+```
 path = 'PXD018998\\01_001815W_KLH_2.raw'
-
-1. Place *scan_graph.py* and *scan_graph_test.py* in a new directory. 
-2. Create the subdirectory PXD018998. 
-3. Grab the appropriate .raw from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
-4. Place 01_001815W_KLH_2.raw into PXD018998
-5. From the command line, change into the directory containing the scripts and run 
+```
+1. place *scan_graph.py* and *scan_graph_test.py* in a new directory;
+2. create the subdirectory PXD018998;
+3. grab the appropriate .raw from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw;
+4. place 01_001815W_KLH_2.raw into PXD018998;
+5. from the command line, change into the directory containing the scripts and run 
 *> python scan_graph_test.py*
+
+As written, *scan_graph_test.py* will annotate:
+
+1. b, b-NH<sub>3</sub>, b-H<sub>2</sub>O, y, y-NH<sub>3</sub> and y-H<sub>2</sub>O ions for z = 1, 2 & 3;
+2. the parent ion as well as the parent -H<sub>2</sub>O & -2H<sub>2</sub>O (z=3); and
+3. immonium ions for each of the amino acids in the peptide sequence.

@@ -5,9 +5,7 @@
 There are three files:
 
 1. scan_graph.py - contains methods used to extract a scan from a .raw file and to generate lists of annotation peaks
-
 2. scan_graph_test.py - a demonstration of how to use the methods in scan_graph.py
-
 3. 9102-NGKITSIVKDSSAARNG.png - a sample PNG generated using scan_graph_test.py
 
 Access to .raw files uses *pymsfilereader*, so you must install this package using the instructions at https://github.com/frallain/pymsfilereader. This package is only available for Windows, because accessing the files requires using a COM interface supplied by Thermo.
@@ -20,4 +18,5 @@ path = 'PXD018998\\01_001815W_KLH_2.raw'
 2. Create the subdirectory PXD018998. 
 3. Grab the appropriate .raw from from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
 4. Place 01_001815W_KLH_2.raw into PXD018998
-5. From the command line, change into the directory containing the scripts and run *> python scan_graph_test.py*
+5. From the command line, change into the directory containing the scripts and run 
+*> python scan_graph_test.py*

@@ -16,7 +16,7 @@ path = 'PXD018998\\01_001815W_KLH_2.raw'
 
 1. Place *scan_graph.py* and *scan_graph_test.py* in a new directory. 
 2. Create the subdirectory PXD018998. 
-3. Grab the appropriate .raw from from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
+3. Grab the appropriate .raw from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
 4. Place 01_001815W_KLH_2.raw into PXD018998
 5. From the command line, change into the directory containing the scripts and run 
 *> python scan_graph_test.py*

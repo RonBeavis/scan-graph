@@ -2,6 +2,12 @@
 # Copyright © 2020 Ronald C. Beavis
 # Licensed under Apache License, Version 2.0, January 2004
 #
+# the most recent version of this file is available at
+# https://github.com/RonBeavis/scan-graph/blob/master/scan_graph_test.py
+#
+# scan_graph_test.py is a test script to demonstrate the use scan_graph.py to create
+# an annotated graph of an MS/MS spectrum using a known peptide sequence assignment
+#
 from scan_graph import GetSpectrum,GetBs,GetCharge,GetYs,GetValues,GetParents,GetImmonium
 import matplotlib.pyplot as plt
 import matplotlib.style
@@ -16,7 +22,8 @@ def main():
 			'mods':{1:0.984} # peptide sequence modifications using position:Da pairs
 		}
 	path = 'PXD018998\\01_001815W_KLH_2.raw'	#path to the spectrum file
-
+	# you can get this file from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
+	
 	# retrieve the spectrum and some text information
 	(expt,info) = GetSpectrum(path,scan)
 	# rescale the spectrum to run from 0 to 100

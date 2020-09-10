@@ -4,6 +4,14 @@
 #
 # you must install pymsfilereader using the instructions at
 # https://github.com/frallain/pymsfilereader
+#
+# the most recent version of this file is available at
+# https://github.com/RonBeavis/scan-graph/blob/master/scan_graph.py
+#
+# this file contains methods that are useful for extracting MS/MS data
+# from a .raw file and creating lists of markup peaks illustrating the signals assigned to a particular
+# peptide sequences
+# 
 
 from pymsfilereader import MSFileReader
 import re

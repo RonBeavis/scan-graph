@@ -47,7 +47,7 @@ def main():
 	for it in itypes:
 		if it[0] == 'b':
 			bvals = GetBs(peptide,it[1:])
-		if it[0] == 'a':
+		elif it[0] == 'a': #this was an "if" in an earlier version, "elif" is correct
 			bvals = GetAs(peptide,it[1:])
 		else:
 			bvals = GetYs(peptide,it[1:])

@@ -8,7 +8,7 @@
 # scan_graph_test.py is a test script to demonstrate the use scan_graph.py to create
 # an annotated graph of an MS/MS spectrum using a known peptide sequence assignment
 #
-from scan_graph import GetSpectrum,GetAs,GetBs,GetYs,GetCharge,GetValues,GetParents,GetImmonium
+from scan_graph import ScanGraph
 import matplotlib.pyplot as plt
 import matplotlib.style
 import matplotlib as mpl
@@ -22,11 +22,17 @@ def main():
 			'mods':{1:0.984} # peptide sequence modifications using position:Da pairs
 		}
 	path = 'PXD018998\\01_001815W_KLH_2.raw'	#path to the spectrum file
+	'''scan = 1440 # MS/MS scan number to annotate
+	peptide = {	'tol':0.8,	# fragment ion tolerance (in Da)
+			'z':2,		# maximum fragment ion charge to consider
+			'seq': 'AIIESDQEQGR', # peptide sequence
+			'mods':{1:229.163} # peptide sequence modifications using position:Da pairs
+		}
+	path = 'PXD016999\\Instrument1_sample03_S1R6_072416_Fr03.raw'	#path to the spectrum file'''
 	peak_width = 2
-	# you can get this file from ftp://massive.ucsd.edu/MSV000085375/raw/01_001815W_KLH_2.raw
-	
+	sg = ScanGraph()
 	# retrieve the spectrum and some text information
-	(expt,info) = GetSpectrum(path,scan)
+	(expt,info) = sg.GetSpectrum(path,scan)
 	# rescale the spectrum to run from 0 to 100
 	iscale = max(expt[1])
 	expt[1] = [100.0*x/iscale for x in expt[1]]
@@ -46,19 +52,19 @@ def main():
 	print('type\tz\tm/z\tintensity')
 	for it in itypes:
 		if it[0] == 'b':
-			bvals = GetBs(peptide,it[1:])
-		elif it[0] == 'a': #this was an "if" in an earlier version, "elif" is correct
-			bvals = GetAs(peptide,it[1:])
+			bvals = sg.GetBs(peptide,it[1:])
+		elif it[0] == 'a':
+			bvals = sg.GetAs(peptide,it[1:])
 		else:
-			bvals = GetYs(peptide,it[1:])
+			bvals = sg.GetYs(peptide,it[1:])
 		# reset the peak lists
 		ps = [[],[]]
 		# iterate through allowed charge states
 		for z in range(1,peptide['z']+1):
 			# add in charge information
-			zvals = GetCharge(bvals,z)
+			zvals = sg.GetCharge(bvals,z)
 			# get matched peaks
-			pvals = GetValues(zvals,expt,peptide['tol'])
+			pvals = sg.GetValues(zvals,expt,peptide['tol'])
 			# update the peak lists
 			ps[0] += pvals[0]
 			ps[1] += pvals[1]
@@ -68,20 +74,20 @@ def main():
 		peaks[it] = ps
 
 	# calculate parent ion & fragments
-	bvals = GetParents(peptide)
+	bvals = sg.GetParents(peptide)
 	ps = [[],[]]
-	zvals = GetCharge(bvals,peptide['z'])
-	pvals = GetValues(zvals,expt,peptide['tol'])
+	zvals = sg.GetCharge(bvals,peptide['z'])
+	pvals = sg.GetValues(zvals,expt,peptide['tol'])
 	# update the peak lists
 	ps[0] += pvals[0]
 	ps[1] += pvals[1]
 	peaks['parent'] = ps
 	
 	# calculate immonium ions
-	bvals = GetImmonium(peptide)
+	bvals = sg.GetImmonium(peptide)
 	ps = [[],[]]
-	zvals = GetCharge(bvals,1)
-	pvals = GetValues(zvals,expt,peptide['tol'])
+	zvals = sg.GetCharge(bvals,1)
+	pvals = sg.GetValues(zvals,expt,peptide['tol'])
 	# update the peak lists
 	ps[0] += pvals[0]
 	ps[1] += pvals[1]
